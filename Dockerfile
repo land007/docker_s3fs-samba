@@ -1,7 +1,5 @@
 FROM land007/s3fs:latest
-#FROM alpine:latest
-
-MAINTAINER Yiqiu Jia <yiqiujia@hotmail.com>
+MAINTAINER David Personette <dperson@gmail.com>
 
 # Install samba
 RUN apk --no-cache --no-progress upgrade && \
@@ -62,7 +60,6 @@ RUN apk --no-cache --no-progress upgrade && \
     rm -rf /tmp/*
 
 COPY samba.sh /usr/bin/
-RUN chmod +x /usr/bin/samba.sh
 
 EXPOSE 137/udp 138/udp 139 445
 
@@ -72,12 +69,4 @@ HEALTHCHECK --interval=60s --timeout=15s \
 VOLUME ["/etc", "/var/cache/samba", "/var/lib/samba", "/var/log/samba",\
             "/run/samba"]
 
-#CMD 
 ENTRYPOINT ["/sbin/tini", "--", "/usr/bin/samba.sh"]
-#CMD /sbin/tini -- /usr/bin/samba.sh
-
-#docker build -t land007/s3fs-samba .
-#docker rm -f s3fs-samba ; docker run -it --rm --name s3fs-samba -p 139:139 -p 445:445 -it land007/s3fs-samba:latest -u "www;overkill" -s "www;/mnt/s3fs/;yes;no;no;all;none"
-#docker rm -f s3fs-samba ; docker run -it --rm --name s3fs-samba -p 1139:139 -p 1445:445 -it land007/s3fs-samba:latest -u "www;overkill" -s "www;/mount/;yes;no;no;all;none"
-
-#docker rm -f samba ; docker run -it --rm --name samba -p 139:139 -p 445:445 -it land007/samba:latest -u "www;overkill" -s "www;/mount/;yes;no;no;all;none"
